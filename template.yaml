@@ -12,18 +12,31 @@ Description: >-
 Transform:
 - AWS::Serverless-2016-10-31
 
-Globals:
-  Function:
-    Environment:
-      Variables:
-        VERIFY_TOKEN: "***REMOVED***"
-        WHATSAPP_TOKEN: "***REMOVED***"
-
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  # Associated with source code: gpt-hander.js
+  gptHandler:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/gpt-handler.js
+      Runtime: nodejs12.x
+      Architectures:
+        - x86_64
+      Description: Handler function to send prompts and receive responses from ChatGPT chatbot.
+      Environment:
+        Variables:
+          VERIFY_TOKEN: "***REMOVED***"
+          WHATSAPP_TOKEN: "***REMOVED***"
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /
+            Method: ANY
 
   # This is a Lambda function config associated with the source code: get-all-items.js
   getAllItemsFunction:
