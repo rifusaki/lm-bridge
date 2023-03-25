@@ -29,8 +29,10 @@ Resources:
       Description: Handler function to send prompts and receive responses from ChatGPT chatbot.
       Environment:
         Variables:
-          VERIFY_TOKEN: "***REMOVED***"
-          WHATSAPP_TOKEN: "***REMOVED***"
+          VERIFY_TOKEN:
+            Type: String
+          WHATSAPP_TOKEN:
+            Type: Strings
       Events:
         Api:
           Type: Api
