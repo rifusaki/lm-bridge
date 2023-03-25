@@ -1,13 +1,21 @@
 {
-    "name": "delete-test-01",
-    "description": "delete-test-01-description",
+    "name": "lm-bridge",
+    "description": "bridge from llm to whatsapp",
     "version": "0.0.1",
     "private": true,
     "dependencies": {
         "aws-sdk": "^2.799.0"
     },
     "devDependencies": {
-        "jest": "^26.6.3"
+        "jest": "^26.6.3",
+        "app": "^0.1.0",
+        "axios": "^0.27.2",
+        "body-parser": "^1.20.0",
+        "express": "^4.18.1",
+        "request": "^2.88.2"
+    },
+    "engines": {
+        "node": "12.x"
     },
     "scripts": {
         "test": "jest --roots __tests__/unit",
