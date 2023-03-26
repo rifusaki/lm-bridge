@@ -19,10 +19,11 @@ const request = require("request"),
   axios = require("axios").default,
   app = express().use(body_parser.json()); // creates express http server
 
-// Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));
+exports.gptHandler = async (event) => {
+  // Sets server port and logs message on success
+  app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));
 
-// Accepts POST requests at /webhook endpoint
+  // Accepts POST requests at /webhook endpoint
 app.post("/webhook", (req, res) => {
   // Parse the request body from the POST
   let body = req.body;
@@ -65,7 +66,7 @@ app.post("/webhook", (req, res) => {
   }
 });
 
-// Accepts GET requests at the /webhook endpoint. You need this URL to setup webhook initially.
+  // Accepts GET requests at the /webhook endpoint. You need this URL to setup webhook initially.
 // info on verification request payload: https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests 
 app.get("/webhook", (req, res) => {
   /**
@@ -92,3 +93,4 @@ app.get("/webhook", (req, res) => {
     }
   }
 });
+};

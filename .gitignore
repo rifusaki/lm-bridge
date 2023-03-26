@@ -5,3 +5,4 @@ node_modules/
 nodejs/
 
 __tests__/
+.DS_Store
