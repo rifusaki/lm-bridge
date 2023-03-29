@@ -22,22 +22,16 @@ Resources:
   gptHandler:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/handlers/gpt-handler.js
+      Handler: src/handlers/gpt-handler.gptHandler
       Runtime: nodejs12.x
       Architectures:
         - x86_64
       Description: Handler function to send prompts and receive responses from ChatGPT chatbot.
-      Environment:
-        Variables:
-          VERIFY_TOKEN:
-            Type: String
-          WHATSAPP_TOKEN:
-            Type: Strings
       Events:
         Api:
           Type: Api
           Properties:
-            Path: /
+            Path: /WA
             Method: ANY
 
   # This is a Lambda function config associated with the source code: get-all-items.js
