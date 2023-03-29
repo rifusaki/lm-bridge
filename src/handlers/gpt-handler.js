@@ -25,17 +25,17 @@ exports.gptHandler = async (event) => {
   if (event.httpMethod == 'GET') {
     const verify_token = process.env.VERIFY_TOKEN;
 
-    let mode = event[hub.mode];
-    let token = event[hub.verify_token];
-    let challenge = event[hub.challenge];
+    let mode = event["queryStringParameters"]['hub.mode'];
+    let token = event["queryStringParameters"]['hub.verify_token'];
+    let challenge = event["queryStringParameters"]['hub.challenge'];
 
     if (mode && token) {
       if (mode === "subscribe" && token === verify_token) {
         console.log("WEBHOOK_VERIFIED");
-        callback(null, {"isBase64Encoded": false, "statusCode": 200, "body": "WEBHOOK_VERIFIED"});
+        return {"isBase64Encoded": false, "statusCode": 200, "body": challenge}
       } else {
         console.log("TOKEN DOES NOT MATCH");
-        callback(null, {"isBase64Encoded": false, "statusCode": 403, "body": "Token mismatch"})
+        return {"isBase64Encoded": false, "statusCode": 403, "body": "Token mismatch"}
       }
     } else {
       console.log("NO MODE OR TOKEN");
