@@ -1,8 +1,8 @@
 # lm-bridge
 
-This small project will contain the source code to send messages from a WhatsApp chat as prompts to ChatGPT and return its response. It's a serverless application that can be deployed with the the AWS Serverless Application Model (AWS SAM) CLI to a Lambda function and an API Gateway.
+This small project will contain the source code to send messages from a WhatsApp chat as prompts to ChatGPT and return its response without the need of an OpenAI API key. It's more of a personal project.
 
-This project contains source code and supporting files for a serverless application that you can deploy with the AWS Serverless Application Model (AWS SAM) command line interface (CLI).
+It's a serverless application that can be deployed with the the AWS Serverless Application Model (AWS SAM) CLI to a Lambda function and an API Gateway. You can deploy it with the AWS Serverless Application Model (AWS SAM) command line interface (CLI).
 
 - `src` - Code for the application's Lambda function.
 - `template.yaml` - A template that defines the application's AWS resources.
