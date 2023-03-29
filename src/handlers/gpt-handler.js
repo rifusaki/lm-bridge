@@ -40,7 +40,6 @@ exports.gptHandler = async (event) => {
 
     if (event.httpMethod == 'POST') {
       let body = JSON.parse(event['body']);
-      console.log(body["object"]);
 
       if (body["object"] && body["entry"][0]["changes"][0]["value"]["messages"][0]) {
         let phone_number_id = body["entry"][0]["changes"][0]["value"]["metadata"]["phone_number_id"];
