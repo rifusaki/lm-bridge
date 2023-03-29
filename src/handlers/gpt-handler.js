@@ -20,8 +20,31 @@ const request = require("request"),
   app = express().use(body_parser.json()); // creates express http server
 
 exports.gptHandler = async (event) => {
-  // Sets server port and logs message on success
-  app.listen(process.env.PORT || 1338, () => console.log("webhook is listening, port 1338"));
+  console.info('received:', event)
+
+  if (event.httpMethod == 'GET') {
+    const verify_token = process.env.VERIFY_TOKEN;
+
+    let mode = event[hub.mode];
+    let token = event[hub.verify_token];
+    let challenge = event[hub.challenge];
+
+    if (mode && token) {
+      if (mode === "subscribe" && token === verify_token) {
+        console.log("WEBHOOK_VERIFIED");
+        callback(null, {"isBase64Encoded": false, "statusCode": 200, "body": "WEBHOOK_VERIFIED"});
+      } else {
+        console.log("TOKEN DOES NOT MATCH");
+        callback(null, {"isBase64Encoded": false, "statusCode": 403, "body": "Token mismatch"})
+      }
+    } else {
+      console.log("NO MODE OR TOKEN");
+      }
+    }
+
+    if (event.httpMethod == 'POST') {
+    }
+  }
 
   // Accepts POST requests at /webhook endpoint
   app.post("/webhook", (req, res) => {
@@ -60,43 +83,11 @@ exports.gptHandler = async (event) => {
         });
       }
       res.sendStatus(200);
-      return {"statusCode": 200, "body": "Local: " + msg_body}
+      callback(null, {"statusCode": 200, "body": ""})
   } else {
     // Return a '404 Not Found' if event is not from a WhatsApp API
     res.sendStatus(404);
-    return {"statusCode": 404, "body": "Event not from WhatsApp API"}
+    callback(null, {"statusCode": 404, "body": ""})
   }
   app.close();
 });
-
-  // Accepts GET requests at the /webhook endpoint. You need this URL to setup webhook initially.
-  // info on verification request payload: https://developers.facebook.com/docs/graph-api/webhooks/getting-started#verification-requests 
-  app.get("/webhook", (req, res) => {
-    /**
-     * UPDATE YOUR VERIFY TOKEN
-     *This will be the Verify Token value when you set up webhook
-    **/
-    const verify_token = process.env.VERIFY_TOKEN;
-
-    // Parse params from the webhook verification request
-    let mode = req.query["hub.mode"];
-    let token = req.query["hub.verify_token"];
-    let challenge = req.query["hub.challenge"];
-
-    // Check if a token and mode were sent
-    if (mode && token) {
-      // Check the mode and token sent are correct
-      if (mode === "subscribe" && token === verify_token) {
-        // Respond with 200 OK and challenge token from the request
-        console.log("WEBHOOK_VERIFIED");
-        res.status(200).send(challenge);
-        return {"statusCode": 200, "body": "WEBHOOK_VERIFIED"}
-      } else {
-        // Responds with '403 Forbidden' if verify tokens do not match
-        res.sendStatus(403);
-        return {"statusCode": 403, "body": "Token mismatch"}
-      }
-    }
-    app.close();
-  });
-};
