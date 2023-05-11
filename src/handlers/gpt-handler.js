@@ -12,8 +12,9 @@ const token = process.env.WHATSAPP_TOKEN;
 const request = require("request"),
   express = require("express"),
   body_parser = require("body-parser"),
-  axios = require("axios").default,
-  app = express().use(body_parser.json()); // creates express http server
+  axios = require("axios").default;
+
+//require('axios-debug-log/enable');  // Axios debug
 
 exports.gptHandler = async (event) => {
   console.info('received:', event)
@@ -45,6 +46,8 @@ exports.gptHandler = async (event) => {
         let phone_number_id = body["entry"][0]["changes"][0]["value"]["metadata"]["phone_number_id"];
         let from = body["entry"][0]["changes"][0]["value"]["messages"][0]["from"];
         let msg_body = body["entry"][0]["changes"][0]["value"]["messages"][0]["text"]["body"];
+
+        console.log("VALID REQUEST, SENDING RESPONSE");
 
         axios({
           method: "POST", // Required, HTTP method, a string, e.g. POST, GET
